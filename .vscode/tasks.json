@@ -1,0 +1,245 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run compiled executable",
+      "type": "shell",
+      "command": "${fileDirname}/${fileBasenameNoExtension}.x",
+      "options": {
+        "cwd": "${fileDirname}"
+      }
+    },
+    {
+      "label": "Clean executable",
+      "type": "shell",
+      "command": "rm ${fileDirname}/${fileBasenameNoExtension}.x 2>/dev/null",
+      "options": {
+        "cwd": "${fileDirname}"
+      }
+    },
+    {
+      "label": "Compile file to produce executable (C++20 debug build) with g++",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-Iplog/include/",
+        "-pedantic-errors", // disable compiler extensions
+        "-pipe",
+        "-std=c++20",
+        "-Wall",
+        "-Wcast-align",
+        "-Wcast-qual",
+        "-Wconversion",
+        "-Wctor-dtor-privacy",
+        "-Wdeprecated-copy-dtor",
+        "-Wdouble-promotion",
+        "-Wduplicated-branches",
+        "-Weffc++",
+        "-Werror",
+        "-Wextra",
+        "-Wextra-semi",
+        "-Wfloat-equal",
+        "-Wformat=2",
+        "-Wformat-signedness",
+        "-Wformat-truncation=2",
+        "-Wframe-larger-than=5000",
+        // "-Wl",
+        "-Wlogical-op",
+        // "-Wmissing-prototypes",  // not valid in g++ (for C++ projects)
+        "-Wnull-dereference",
+        "-Wold-style-cast",
+        "-Woverloaded-virtual",
+        "-Wpedantic",
+        "-Wreturn-local-addr", // -Wreturn-stack-address in clang++
+        "-Wshadow",
+        // "-Wsign-conversion", // -Wsign-compare is g++ equivalent and is already enabled by -Wall
+        "-Wsign-promo",
+        "-Wstrict-aliasing",
+        // "-Wstrict-prototypes", // not valid for C++ projects?
+        "-Wswitch-default",
+        "-Wswitch-enum",
+        "-Wundef",
+        "-Wunused-macros",
+        "-O0",
+        "-g",
+        "-ggdb",
+        // "-fanalyzer", // -fanalyzer is currently not working properly with C++ and is not recommended to be used on C++ code. A meta bug tracking C++ issues can be found here. https://gcc.gnu.org/bugzilla/show_bug.cgi?id=97110 https://stackoverflow.com/a/73913076
+        "-fanalyzer-transitivity",
+        "-fasynchronous-unwind-tables",
+        "-fexceptions",
+        "-fno-omit-frame-pointer",
+        "-fno-sanitize-recover",
+        "-fsanitize=address",
+        "-fsanitize=bool",
+        // "-fsanitize=integer", // not valid in gcc
+        "-fsanitize=float-cast-overflow",
+        "-fsanitize=float-divide-by-zero",
+        "-fsanitize=signed-integer-overflow",
+        "-fsanitize=undefined", // triggers debugging errors in clang++
+        // "-fsanitize-trap",  // not valid in gcc
+        "-fstack-clash-protection",
+        "-fstack-protector-all",
+        "-fstack-protector-strong",
+        "-fstrict-aliasing",
+        "-fvisibility=hidden",
+        "-DDEBUG",
+        "-DDBG_MACRO_NO_WARNING",
+        // "-DDBG_MACRO_DISABLE",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.x"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": "$gcc",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Compile file to produce executable (C++20 debug build) with clang++",
+      "type": "shell",
+      "command": "clang++",
+      "args": [
+        "-Iplog/include/",
+        "-pedantic-errors", // disable compiler extensions
+        "-pipe",
+        "-std=c++20",
+        "-Wall",
+        "-Wcast-align",
+        "-Wcast-qual",
+        "-Wconversion",
+        "-Wctor-dtor-privacy",
+        "-Wdeprecated-copy-dtor",
+        "-Wdouble-promotion",
+        "-Weffc++",
+        "-Wextra",
+        "-Werror",
+        "-Wextra-semi",
+        "-Wfloat-equal",
+        "-Wformat=2",
+        "-Wimplicit-fallthrough",
+        // "-Wl",
+        // "-Wmissing-prototypes", // not valid for C++ projects?
+        "-Wnull-dereference",
+        "-Wold-style-cast",
+        "-Woverloaded-virtual",
+        "-Wpedantic",
+        "-Wshadow",
+        "-Wsign-conversion", // not required in g++, but required here for clang++
+        "-Wsign-promo",
+        "-Wstrict-aliasing",
+        "-Wstrict-prototypes",
+        "-Wswitch-default",
+        "-Wswitch-enum",
+        "-Wundef",
+        "-Wunused-macros",
+        "-O0",
+        "-g",
+        "-ggdb",
+        "-fasynchronous-unwind-tables",
+        "-fexceptions",
+        "-fno-omit-frame-pointer",
+        "-fno-sanitize-recover",
+        "-fsanitize=address",
+        "-fsanitize=bool",
+        // "-fsanitize=integer", // not valid in gcc
+        "-fsanitize=float-cast-overflow",
+        "-fsanitize=float-divide-by-zero",
+        "-fsanitize=signed-integer-overflow",
+        // "-fsanitize=undefined", // triggers debugging errors in clang++
+        "-fsanitize=bool",
+        // "-fsanitize-trap", // not valid in gcc
+        "-fstack-clash-protection",
+        "-fstack-protector-all",
+        "-fstack-protector-strong",
+        "-fstrict-aliasing",
+        "-fvisibility=hidden",
+        "-DDEBUG",
+        "-DDBG_MACRO_NO_WARNING",
+        // "-DDBG_MACRO_DISABLE",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.x"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": "$gcc",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Compile file to produce executable (C++20 release build) with g++",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-Iplog/include/",
+        "-pedantic-errors", // disable compiler extensions
+        "-pipe",
+        "-std=c++20",
+        "-Wall",
+        "-Weffc++",
+        "-Wextra",
+        "-Werror",
+        "-Wfloat-equal",
+        "-Wformat=2",
+        // "-Wl",
+        "-Wpedantic",
+        "-Wreturn-local-addr", // -Wreturn-stack-address in clang++
+        "-O2",
+        "-DNDEBUG",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.x"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": "$gcc",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Compile file to produce executable (C++20 release build) with clang++",
+      "type": "shell",
+      "command": "clang++",
+      "args": [
+        "-Iplog/include/",
+        "-pedantic-errors", // disable compiler extensions
+        "-pipe",
+        "-std=c++20",
+        "-Wall",
+        "-Weffc++",
+        "-Wextra",
+        "-Werror",
+        "-Wfloat-equal",
+        "-Wformat=2",
+        "-Wimplicit-fallthrough",
+        // "-Wl",
+        "-Wpedantic",
+        "-O2",
+        "-DNDEBUG",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.x"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": "$gcc",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
